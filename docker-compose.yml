@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  watchtower:
+    image: containrrr/watchtower
+    environment:
+      -  WATCHTOWER_POLL_INTERVAL=30
+      - WATCHTOWER_LABEL_ENABLE
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    container_name: watchtower
+  express_app:
+    image: temppa/express_app
+    build: .
+    container_name: express_app
+    ports:
+      - 8080:8080
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
